@@ -23,21 +23,24 @@ use Phalcon\Config;
 use Phalcon\DI\Injectable;
 use Snowair\Debugbar\Controllers\ToolsController;
 
-class ServiceProvider extends Injectable {
-
+class ServiceProvider extends Injectable
+{
 	protected $configPath;
 
-	public function __construct( $configPath=null ){
+	public function __construct( $configPath=null )
+	{
 		$this->configPath = $configPath;
 	}
 
-	public function start() {
+	public function start()
+	{
 		$this->register()->boot();
 	}
 
-	public function register( ){
+	public function register( )
+	{
 		$configPath = $this->configPath;
-		$this->di->set('config.debugbar', function() use($configPath){
+		$this->di->set('config.debugbar', function() use($configPath) {
 			$base =new Php(__DIR__ . '/config/debugbar.php');
             $base['collectors']['phpinfo']=true;
             $base['collectors']['time']=true;
@@ -85,7 +88,8 @@ class ServiceProvider extends Injectable {
 		return $this;
 	}
 
-	protected function setRoute(){
+	protected function setRoute()
+	{
 		$app= $this->di['app'];
 		$router = $this->di['router'];
 		if (  $app instanceof Micro ) {
@@ -104,7 +108,7 @@ class ServiceProvider extends Injectable {
 				$controller->jsAction()->send();
 			})->setName('debugbar.assets.js');
 
-		}elseif (  $app instanceof Application ) {
+		} elseif (  $app instanceof Application ) {
 			$router->add('/_debugbar/open',array(
 				'namespace'=>'Snowair\Debugbar\Controllers',
 				'controller'=>'open_handler',

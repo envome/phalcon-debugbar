@@ -1,9 +1,4 @@
 <?php
-/**
- * User: zhuyajie
- * Date: 15/3/3
- * Time: 13:29
- */
 
 namespace Snowair\Debugbar;
 
@@ -13,13 +8,12 @@ use Phalcon\Di;
 use Phalcon\Dispatcher;
 use Phalcon\Mvc\Application;
 
-class JsRender extends JavascriptRenderer{
-
+class JsRender extends JavascriptRenderer
+{
 	protected $ajaxHandlerBindToJquery = false;
 	protected $ajaxHandlerBindToXHR = true;
 	protected $url;
-
-
+	
 	public function __construct(DebugBar $debugBar, $baseUrl = null, $basePath = null)
 	{
 		parent::__construct($debugBar, $baseUrl, $basePath);
@@ -35,37 +29,39 @@ class JsRender extends JavascriptRenderer{
 		$this->url = $url;
 	}
 
-    public function renderHead() {
+    public function renderHead()
+	{
         if (!$this->url) {
             return parent::renderHead();
         }
 
         $time=time();
         $html = '';
-        $di=Di::getDefault();
+        $di= Di::getDefault();
+        
         /** @var Dispatcher $dispatcher */
         $app = $di['app'];
         if (  $app instanceof Application ) {
             $dispatcher= $di['dispatcher'];
-            $m=$dispatcher->getModuleName();
-            if(!$m){
-                $m=$di['request']->get('m');
+            $m = $dispatcher->getModuleName();
+            if(!$m) {
+                $m = $di['request']->get('m');
             }
-            if(!$m){
-                $m=$app->getDefaultModule();
+            if(!$m) {
+                $m = $app->getDefaultModule();
             }
-        }else{
+        } else {
             $m='';
         }
 
         $baseuri = rtrim($this->url->getBasePath(),'/').'/';
         $html .= sprintf(
             '<link rel="stylesheet" type="text/css" href="%s?m='.$m.'&%s">' . "\n",
-            $baseuri.ltrim($this->url->getStatic(array('for'=>'debugbar.assets.css')),'/'),$time
+            $baseuri.ltrim($this->url->getStatic(array('for'=>'debugbar.assets.css')),'/'), $time
         );
         $html .= sprintf(
             '<script type="text/javascript" src="%s?m='.$m.'&%s"></script>' . "\n",
-            $baseuri.ltrim($this->url->getStatic(array('for'=>'debugbar.assets.js')),'/'),$time
+            $baseuri.ltrim($this->url->getStatic(array('for'=>'debugbar.assets.js')),'/'), $time
         );
 
         if ($this->isJqueryNoConflictEnabled()) {
@@ -73,7 +69,6 @@ class JsRender extends JavascriptRenderer{
         }
 
         // reset base uri to its default
-
         return $html;
     }
 

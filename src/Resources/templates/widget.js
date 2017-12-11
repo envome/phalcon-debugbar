@@ -52,10 +52,10 @@
 					if (tpl.memory_str) {
 						$('<span title="Memory usage" />').addClass(csscls('memory')).text(tpl.memory_str).appendTo(li);
 					}
-					if (typeof(tpl.param_count) != 'undefined') {
+					if (typeof(tpl.param_count) !== 'undefined') {
 						$('<span title="Parameter count" />').addClass(csscls('param-count')).text(tpl.param_count).appendTo(li);
 					}
-					if (typeof(tpl.type) != 'undefined' && tpl.type) {
+					if (typeof(tpl.type) !== 'undefined' && tpl.type) {
 						$('<span title="Engine" />').addClass(csscls('type')).text(tpl.type).appendTo(li);
 					}
 					if (tpl.params && !$.isEmptyObject(tpl.params)) {
@@ -83,7 +83,7 @@
                 this.$list.set('data', data.templates);
                 this.$status.empty();
 
-	            if ( data.vars && data.vars!='null' && !$.isEmptyObject(data.vars)) {
+	            if ( data.vars && data.vars!=='null' && !$.isEmptyObject(data.vars)) {
 		            var dl = $('<dl/>').addClass(csscls('kvlist')).addClass('varlist').appendTo(this.$el);
 		            var dt = $('<dt><span>View Variables:</span></dt>').addClass(csscls('key')).appendTo(dl);
 		            var dd = $('<dd/>').addClass(csscls('value')).insertAfter(dt);
